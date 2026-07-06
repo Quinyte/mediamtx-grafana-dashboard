@@ -1,0 +1,13 @@
+global:
+  scrape_interval: 10s
+  evaluation_interval: 10s
+
+scrape_configs:
+  - job_name: mediamtx
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          # In the demo stack this resolves to the mediamtx container.
+          # For a real deployment, list every MediaMTX node here (or use
+          # a service-discovery mechanism) to get a true fleet view.
+          - mediamtx:9998

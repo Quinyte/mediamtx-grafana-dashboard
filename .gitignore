@@ -1,0 +1,7 @@
+# Local Grafana/Prometheus state if ever mounted
+data/
+*.log
+
+# OS noise
+.DS_Store
+Thumbs.db

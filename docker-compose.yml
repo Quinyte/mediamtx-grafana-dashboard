@@ -1,0 +1,59 @@
+name: mediamtx-grafana-demo
+
+services:
+  mediamtx:
+    image: bluenviron/mediamtx:latest
+    container_name: mediamtx
+    restart: unless-stopped
+    environment:
+      # Enable the Prometheus metrics endpoint (listens on :9998/metrics)
+      MTX_METRICS: "yes"
+      MTX_METRICSADDRESS: ":9998"
+    ports:
+      - "8554:8554"   # RTSP
+      - "1935:1935"   # RTMP
+      - "8888:8888"   # HLS
+      - "8889:8889"   # WebRTC (WHIP/WHEP)
+      - "8890:8890/udp" # SRT
+      - "9998:9998"   # Prometheus metrics
+
+  # Generates a synthetic RTSP stream so the dashboard has live data out of the box.
+  # Remove this service when pointing at a real MediaMTX deployment.
+  publisher:
+    image: bluenviron/ffmpeg:latest
+    container_name: mediamtx-publisher
+    restart: unless-stopped
+    depends_on:
+      - mediamtx
+    entrypoint: >
+      ffmpeg -re -f lavfi -i testsrc=size=1280x720:rate=30
+      -f lavfi -i sine=frequency=440
+      -c:v libx264 -preset veryfast -tune zerolatency -b:v 2M
+      -c:a aac -f rtsp rtsp://mediamtx:8554/demo
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: mediamtx-prometheus
+    restart: unless-stopped
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    depends_on:
+      - mediamtx
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: mediamtx-grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_DEFAULT_THEME: dark
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./provisioning:/etc/grafana/provisioning:ro
+      - ./dashboard.json:/var/lib/grafana/dashboards/mediamtx.json:ro
+    depends_on:
+      - prometheus
