@@ -1,0 +1,38 @@
+# Minimal MediaMTX config for the demo stack.
+#
+# The important part: MediaMTX's default internal auth only permits the
+# `metrics` (and `api` / `pprof`) actions from localhost (127.0.0.1 / ::1).
+# A Prometheus running on another host or in another container scrapes from a
+# non-localhost source IP and is rejected with "authentication error".
+#
+# Below we grant the `metrics` action to any IP so Prometheus can scrape.
+# IN PRODUCTION: restrict `ips` to your Prometheus host/subnet instead of [].
+
+metrics: yes
+metricsAddress: :9998
+
+# Allow any path name to be published/read (matches the stock config's
+# catch-all). Without this, a mounted config rejects streams with
+# "path '<name>' is not configured".
+paths:
+  all_others:
+
+authInternalUsers:
+  # Publishing / reading streams — open, as in the stock config.
+  - user: any
+    pass:
+    ips: []
+    permissions:
+      - action: publish
+      - action: read
+      - action: playback
+
+  # Control-plane actions. Stock config limits these to localhost; we widen
+  # `metrics` to any IP for the demo. Tighten `ips` for real deployments.
+  - user: any
+    pass:
+    ips: []
+    permissions:
+      - action: api
+      - action: metrics
+      - action: pprof

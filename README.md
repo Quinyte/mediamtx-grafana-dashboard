@@ -15,18 +15,27 @@ cd mediamtx-grafana-dashboard
 docker compose up -d
 ```
 
-Then open **http://localhost:3000** (login `admin` / `admin`) → **Dashboards → MediaMTX → MediaMTX — Fleet Overview**. A synthetic 720p test stream is published automatically, so the panels populate immediately.
+Then open **http://localhost:3300** (login `admin` / `admin`) → **Dashboards → MediaMTX → MediaMTX — Fleet Overview**. A synthetic 720p test stream is published automatically, so the panels populate immediately.
+
+> Grafana is exposed on **3300** (not its default 3000) to avoid colliding with common dev servers. Prometheus is on `:9090`, MediaMTX metrics on `:9998`.
 
 Tear down with `docker compose down`.
 
 ## Use with your own MediaMTX
 
-1. **Enable metrics** in your `mediamtx.yml` (or via env var `MTX_METRICS=yes`):
+1. **Enable metrics** in your `mediamtx.yml`:
 
    ```yaml
    metrics: yes
    metricsAddress: :9998
    ```
+
+   > **Gotcha:** MediaMTX's default internal auth only permits the `metrics`
+   > action from `127.0.0.1` / `::1`. A Prometheus on another host/container
+   > scrapes from a non-localhost IP and gets `{"status":"error","error":"authentication error"}`.
+   > Grant the `metrics` action to your Prometheus source IP (see the
+   > [`mediamtx.yml`](mediamtx.yml) in this repo for the exact block; tighten
+   > `ips:` to your Prometheus host in production).
 
 2. **Scrape it** from your Prometheus:
 

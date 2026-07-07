@@ -5,10 +5,10 @@ services:
     image: bluenviron/mediamtx:latest
     container_name: mediamtx
     restart: unless-stopped
-    environment:
-      # Enable the Prometheus metrics endpoint (listens on :9998/metrics)
-      MTX_METRICS: "yes"
-      MTX_METRICSADDRESS: ":9998"
+    volumes:
+      # Enables metrics AND grants the `metrics` auth action to non-localhost
+      # scrapers (Prometheus). See the comments in mediamtx.yml.
+      - ./mediamtx.yml:/mediamtx.yml:ro
     ports:
       - "8554:8554"   # RTSP
       - "1935:1935"   # RTMP
@@ -20,13 +20,14 @@ services:
   # Generates a synthetic RTSP stream so the dashboard has live data out of the box.
   # Remove this service when pointing at a real MediaMTX deployment.
   publisher:
-    image: bluenviron/ffmpeg:latest
+    image: linuxserver/ffmpeg:latest
     container_name: mediamtx-publisher
     restart: unless-stopped
     depends_on:
       - mediamtx
-    entrypoint: >
-      ffmpeg -re -f lavfi -i testsrc=size=1280x720:rate=30
+    # linuxserver/ffmpeg's entrypoint is ffmpeg, so args are passed directly.
+    command: >
+      -re -f lavfi -i testsrc=size=1280x720:rate=30
       -f lavfi -i sine=frequency=440
       -c:v libx264 -preset veryfast -tune zerolatency -b:v 2M
       -c:a aac -f rtsp rtsp://mediamtx:8554/demo
@@ -51,7 +52,9 @@ services:
       GF_SECURITY_ADMIN_PASSWORD: admin
       GF_USERS_DEFAULT_THEME: dark
     ports:
-      - "3000:3000"
+      # Grafana's default 3000 collides with common dev servers (Next.js, etc.);
+      # expose on 3300 to stay clear of the 3000-3010 range.
+      - "3300:3000"
     volumes:
       - ./provisioning:/etc/grafana/provisioning:ro
       - ./dashboard.json:/var/lib/grafana/dashboards/mediamtx.json:ro
