@@ -1,8 +1,14 @@
 name: mediamtx-grafana-demo
 
+# Image versions are PINNED, not :latest. This stack is a demo people clone to
+# see the dashboard work; a floating tag means it silently breaks for them on
+# some future upstream release. Every pin below was verified end-to-end
+# (all 14 data panels populating with live data) on 2026-08-31.
+# To upgrade: bump a pin, re-run the stack, re-check the panels, commit.
+
 services:
   mediamtx:
-    image: bluenviron/mediamtx:latest
+    image: bluenviron/mediamtx:1.20.1
     container_name: mediamtx
     restart: unless-stopped
     volumes:
@@ -20,7 +26,7 @@ services:
   # Generates a synthetic RTSP stream so the dashboard has live data out of the box.
   # Remove this service when pointing at a real MediaMTX deployment.
   publisher:
-    image: linuxserver/ffmpeg:latest
+    image: linuxserver/ffmpeg:9.0-cli-ls79
     container_name: mediamtx-publisher
     restart: unless-stopped
     depends_on:
@@ -33,7 +39,7 @@ services:
       -c:a aac -f rtsp rtsp://mediamtx:8554/demo
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v3.14.0
     container_name: mediamtx-prometheus
     restart: unless-stopped
     volumes:
@@ -44,7 +50,7 @@ services:
       - mediamtx
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:13.2.0
     container_name: mediamtx-grafana
     restart: unless-stopped
     environment:
