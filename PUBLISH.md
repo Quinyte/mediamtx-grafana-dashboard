@@ -3,7 +3,7 @@
 Copy for the three places this dashboard needs to be announced. **Nothing here is
 published — a human posts all of it.**
 
-Before posting, replace every `<REPO_URL>` with the real repository URL. The README
+Before posting, replace every `https://github.com/Quinyte/mediamtx-grafana-dashboard` with the real repository URL. The README
 still carries the `github.com/<you>/` placeholder and the repo has no git remote yet,
 so the URL does not exist at the time of writing.
 
@@ -87,7 +87,7 @@ The repo also ships a one-command demo stack (MediaMTX + a synthetic ffmpeg
 stream + Prometheus + Grafana, `docker compose up -d`) if you want to see the
 panels populated before wiring it to production.
 
-Source, demo stack, and metric notes: <REPO_URL>
+Source, demo stack, and metric notes: https://github.com/Quinyte/mediamtx-grafana-dashboard
 MIT licensed — copy panels out of it freely.
 ```
 
@@ -99,7 +99,7 @@ MIT licensed — copy panels out of it freely.
 | Minimum Grafana version | 10.0 — dashboard schema v39; tested on 10.x and 11.x |
 | MediaMTX requirement | any version with the metrics endpoint (`metrics: yes`) |
 | License | MIT |
-| Repository | `<REPO_URL>` |
+| Repository | `https://github.com/Quinyte/mediamtx-grafana-dashboard` |
 | Screenshot | `images/overview.png` — the registry listing wants at least one; the README screenshot block is still commented out, so this needs capturing from the demo stack first |
 
 ### Metrics the dashboard depends on
@@ -139,7 +139,7 @@ question keeps going unanswered.
 
 ```markdown
 There still isn't one in the community registry, so I published the one I'd built
-for my own servers: <REPO_URL>
+for my own servers: https://github.com/Quinyte/mediamtx-grafana-dashboard
 
 The thing that makes this awkward to build by hand — and probably why nobody had
 posted one — is that MediaMTX exports *per-entity* metrics rather than
@@ -218,7 +218,7 @@ with the aggregation problem.
 ```markdown
 Coming back to this one late — this got answered with a scrape config, but the
 actual question was for a dashboard template and that part never got a reply.
-Here's one: <REPO_URL>
+Here's one: https://github.com/Quinyte/mediamtx-grafana-dashboard
 
 It imports straight into Grafana against the Prometheus you set up in this thread
 (Dashboards → New → Import, upload `dashboard.json`, pick your datasource). 14
@@ -249,7 +249,7 @@ want.
 
 ## Pre-post checklist
 
-- [ ] Repo pushed to a public remote; `<REPO_URL>` is real and resolves
+- [ ] Repo pushed to a public remote; `https://github.com/Quinyte/mediamtx-grafana-dashboard` is real and resolves
 - [ ] `github.com/<you>/` placeholder replaced in README.md
 - [ ] `images/overview.png` captured from the demo stack; README screenshot block
       uncommented (the registry listing wants a screenshot)
