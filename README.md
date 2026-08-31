@@ -4,17 +4,12 @@ A clean, **fleet-ready** Grafana dashboard for [MediaMTX](https://github.com/blu
 
 > MediaMTX exposes **per-entity** metrics — every path, session, and connection is its own labeled series. This dashboard does the aggregation for you (`count()` the entities, `rate()` the byte counters into bitrates, `sum by (state / readerType)`), so it works for a single node **or** a whole fleet of nodes scraped by one Prometheus.
 
-<!-- TODO(release): images/ is empty. Run the demo stack below, capture the dashboard to
-     images/overview.png, then delete these comment markers to publish the screenshot.
-![MediaMTX Fleet Overview dashboard](images/overview.png) -->
+![MediaMTX Fleet Overview dashboard](images/overview.png)
 
 ## Quick start (demo)
 
-<!-- TODO(release): OWNER below is a placeholder — this repo has no remote yet. Replace it with
-     the real GitHub owner once the repository is pushed. Do not guess the URL. -->
-
 ```bash
-git clone https://github.com/OWNER/mediamtx-grafana-dashboard
+git clone https://github.com/Quinyte/mediamtx-grafana-dashboard
 cd mediamtx-grafana-dashboard
 docker compose up -d
 ```
