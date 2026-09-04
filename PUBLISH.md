@@ -3,9 +3,9 @@
 Copy for the three places this dashboard needs to be announced. **Nothing here is
 published — a human posts all of it.**
 
-Before posting, replace every `https://github.com/Quinyte/mediamtx-grafana-dashboard` with the real repository URL. The README
-still carries the `github.com/<you>/` placeholder and the repo has no git remote yet,
-so the URL does not exist at the time of writing.
+The repository URLs in the drafts below are already live — every
+`https://github.com/Quinyte/mediamtx-grafana-dashboard` link is the real, public repo and resolves as-is.
+Nothing needs substituting; paste the drafts as written.
 
 `<GRAFANA_ID>` is assigned by grafana.com when the dashboard is first published. The
 issue replies below link the repo, not the registry, so they can go out either before
@@ -249,11 +249,11 @@ want.
 
 ## Pre-post checklist
 
-- [ ] Repo pushed to a public remote; `https://github.com/Quinyte/mediamtx-grafana-dashboard` is real and resolves
-- [ ] `github.com/<you>/` placeholder replaced in README.md
-- [ ] `images/overview.png` captured from the demo stack; README screenshot block
+- [x] Repo pushed to a public remote; `https://github.com/Quinyte/mediamtx-grafana-dashboard` is real and resolves
+- [x] `github.com/<you>/` placeholder replaced in README.md
+- [x] `images/overview.png` captured from the demo stack; README screenshot block
       uncommented (the registry listing wants a screenshot)
-- [ ] `docker compose up -d` verified from a clean clone at that URL — both replies
+- [x] `docker compose up -d` verified from a clean clone at that URL — both replies
       promise it works
 - [ ] Registry listing published; note the assigned `<GRAFANA_ID>`
 - [ ] #3623 reply posted

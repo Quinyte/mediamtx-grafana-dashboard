@@ -226,7 +226,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "(count(rtsp_sessions{path=~\"$path\"}) or vector(0)) + (count(rtsps_sessions{path=~\"$path\"}) or vector(0)) + (count(rtmp_conns{path=~\"$path\"}) or vector(0)) + (count(webrtc_sessions{path=~\"$path\"}) or vector(0)) + (count(hls_sessions{path=~\"$path\"}) or vector(0)) + (count(srt_conns{path=~\"$path\"}) or vector(0))",
+          "expr": "(sum(rtsp_sessions{path=~\"$path\"}) or vector(0)) + (sum(rtmp_conns{path=~\"$path\"}) or vector(0)) + (sum(webrtc_sessions{path=~\"$path\"}) or vector(0)) + (sum(hls_sessions{path=~\"$path\"}) or vector(0)) + (sum(srt_conns{path=~\"$path\"}) or vector(0)) + (sum(moq_sessions{path=~\"$path\"}) or vector(0))",
           "legendFormat": "Sessions",
           "refId": "A"
         }
@@ -461,38 +461,38 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "count(rtsp_sessions{path=~\"$path\"}) or vector(0)",
+          "expr": "sum(rtsp_sessions{path=~\"$path\"}) or vector(0)",
           "legendFormat": "RTSP",
           "refId": "A"
         },
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "count(rtsps_sessions{path=~\"$path\"}) or vector(0)",
-          "legendFormat": "RTSPS",
+          "expr": "sum(rtmp_conns{path=~\"$path\"}) or vector(0)",
+          "legendFormat": "RTMP",
           "refId": "B"
         },
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "count(rtmp_conns{path=~\"$path\"}) or vector(0)",
-          "legendFormat": "RTMP",
+          "expr": "sum(webrtc_sessions{path=~\"$path\"}) or vector(0)",
+          "legendFormat": "WebRTC",
           "refId": "C"
         },
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "count(webrtc_sessions{path=~\"$path\"}) or vector(0)",
-          "legendFormat": "WebRTC",
+          "expr": "sum(hls_sessions{path=~\"$path\"}) or vector(0)",
+          "legendFormat": "HLS",
           "refId": "D"
         },
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "count(hls_sessions{path=~\"$path\"}) or vector(0)",
-          "legendFormat": "HLS",
+          "expr": "sum(srt_conns{path=~\"$path\"}) or vector(0)",
+          "legendFormat": "SRT",
           "refId": "E"
         },
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "count(srt_conns{path=~\"$path\"}) or vector(0)",
-          "legendFormat": "SRT",
+          "expr": "sum(moq_sessions{path=~\"$path\"}) or vector(0)",
+          "legendFormat": "MoQ",
           "refId": "F"
         }
       ],
